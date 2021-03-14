@@ -25,6 +25,23 @@
 	    die("Error: " . $e->getMessage());
     }
 
+
+    $query = "select * from `users` where `username`=:username";
+
+	$stmt = $dbh->prepare($query);
+
+    $stmt->bindParam('username', $username, PDO::PARAM_STR);
+
+    $stmt->execute();
+
+    $count = $stmt->rowCount();
+    $row   = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($count == 1 && !empty($row)) {
+        header("Location: error.php");
+    } 
+
+
     $sql = "insert users (username, password) values (:username, :password)";
 
     $stmt = $dbh->prepare($sql);
@@ -34,9 +51,7 @@
 
     if($stmt->execute()) {
         header("location: index.php");
-      } else {
-        header("Location: error.php");
-      }
+    } 
 ?>
 
 <!doctype html>

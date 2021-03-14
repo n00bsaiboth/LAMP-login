@@ -37,19 +37,15 @@
     $row   = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if($count == 1 && !empty($row)) {
-        // $message = "Username was found on the database. <br />";
-        
+        // $message = "Username was found on the database. <br />";     
         if (password_verify($password, $row["password"])) {
             // $message2 = "Password is valid. <br />";
 
             $_SESSION["id"] = $row["id"];
             header('location:index.php');
         } else {
-            // $message2 = 'Invalid password.';
+            header("Location: error.php");
         }
-
-        // $_SESSION['session_username'] = $row['username'];
-        // header('location:index.php');
     } else {
         header("Location: error.php");
         // echo "username or password invalid.";
