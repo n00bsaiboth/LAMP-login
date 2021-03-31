@@ -1,5 +1,8 @@
 <?php
     session_start();
+
+    include("__/php/functions.php");
+    include("__/php/config.php");
 ?>
 <!DOCTYPE html>
 
@@ -7,7 +10,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title></title>
+    <title>PHP-MySQL Login</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
@@ -37,16 +40,22 @@
             if(empty($_SESSION["id"])) {  
                 echo "<a class=\"nav-link\" href=\"" . htmlspecialchars("register.php") . "\">Register</a>";
             } 
-        ?>  
-            
+        ?>         
+        </li>
+        <li class="nav-item">
+        <?php 
+            if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {  
+                echo "<a class=\"nav-link\" href=\"" . htmlspecialchars("profile.php") . "\">Profile</a>";
+            } 
+        ?>         
         </li>
     </div>
     </nav>
-    <section class="container" id="error">
+    <section class="container" id="welcome">
         <div class="jumbotron">
-        <h1 class="display-4">Welcome to PHP-MySQL Login</h1>
-        <hr class="my-4">
-        <p>
+            <h1 class="display-4">Welcome to PHP-MySQL Login</h1>
+            <hr class="my-4">
+            <p></p>
         
         </div>
     </section>

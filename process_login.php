@@ -2,6 +2,7 @@
     session_start();
 
     include("__/php/functions.php");
+    include("__/php/config.php");
 
     if(isset($_POST["username"]) && !empty($_POST["username"])) {
         $username = validate($_POST["username"]);
@@ -13,11 +14,7 @@
         $password = filter_var($password, FILTER_SANITIZE_STRING);
     }
 
-    try {
-	    $dbh = new PDO('mysql:host=localhost;dbname=temporary', "root", "mysql");
-	} catch (PDOException $e) {
-	    die("Error: " . $e->getMessage());
-    }
+    // Searching the username from the database
 
     $query = "SELECT * FROM `users` WHERE `username`=:username";
 
@@ -34,6 +31,8 @@
         // $message = "Username was found on the database. <br />";     
         if (password_verify($password, $row["password"])) {
             // $message2 = "Password is valid. <br />";
+
+            // Quite not sure if this works, but try to make the $session_id variable to be integer.    
 
             $_SESSION["id"] = filter_var($row["id"], FILTER_VALIDATE_INT);
 

@@ -1,5 +1,8 @@
 <?php
     session_start();
+
+    include("__/php/functions.php");
+    include("__/php/config.php");
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +21,12 @@
 <body>
     <section class="container" id="login">
         <h2>Login</h2>
-
+        <?php
+            if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
+                echo "<p>You're already logged in. </p>";
+                echo "<a href=\"" . htmlspecialchars("index.php") . "\">Back to frontpage</a>";
+            } else {
+        ?>
         <form action="<?php echo htmlspecialchars("process_login.php"); ?>" method="post">
             <div class="form-group">
                 <label for="username">Username: </label>
@@ -32,6 +40,9 @@
 
             <input type="submit" class="btn btn-primary" name="submit" id="submit" value="Login">
         </form> 
+        <?php
+            }
+        ?>
     </section>
 
     <section class="container" id="register">
@@ -39,7 +50,6 @@
 
         <?php 
             if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
-                echo "You're logged in. ";    
                 echo "<a href=\"" . htmlspecialchars("logout.php") . "\">Logout</a>";
             } else {
                 echo "<a href=\"" . htmlspecialchars("register.php") . "\">Register</a>";

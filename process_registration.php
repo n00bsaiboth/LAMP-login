@@ -2,6 +2,7 @@
     session_start();
 
     include("__/php/functions.php");
+    include("__/php/config.php");
 
     if(isset($_POST["username"]) && !empty($_POST["username"])) {
         $username = $_POST["username"];
@@ -15,12 +16,8 @@
         $password = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    try {
-	    $dbh = new PDO('mysql:host=localhost;dbname=temporary', "root", "mysql");
-	} catch (PDOException $e) {
-	    die("Error: " . $e->getMessage());
-    }
-
+    // check if the username already exists, if it does, then send an error to the user that
+    // the username has already been taken.
 
     $query = "SELECT * FROM `users` WHERE `username`=:username";
 
@@ -39,6 +36,9 @@
         header("Location: error.php");
     } 
 
+    // then run another query, if the username does not exist. 
+    // if the statement runs smoothly, the user will be added to the user table, then
+    // get redirected to index.php, which is our homepage. 
 
     $sql = "INSERT users (username, password) VALUES (:username, :password)";
 

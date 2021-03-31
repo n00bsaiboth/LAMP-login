@@ -1,6 +1,9 @@
 <?php
     session_start();
 
+    include("__/php/functions.php");
+    include("__/php/config.php");
+
     if(isset($_SESSION["error"]) && !empty($_SESSION["error"])) {
         $error = $_SESSION["error"];
     }

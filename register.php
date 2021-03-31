@@ -1,5 +1,8 @@
 <?php
     session_start();
+
+    include("__/php/functions.php");
+    include("__/php/config.php");
 ?>
 
 <!DOCTYPE html>
