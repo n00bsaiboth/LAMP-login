@@ -1,53 +1,56 @@
 <?php
     session_start();
-
-    include("__/php/functions.php");
-
-    if(isset($_POST["username"]) && !empty($_POST["username"])) {
-        $username = validate($_POST["username"]);
-        $username = filter_var($username, FILTER_SANITIZE_STRING);
-    }
-
-    if(isset($_POST["password"]) && !empty($_POST["password"])) {
-        $password = validate($_POST["password"]);
-        $password = filter_var($password, FILTER_SANITIZE_STRING);
-    }
-
-    try {
-	    $dbh = new PDO('mysql:host=localhost;dbname=temporary', "root", "mysql");
-	} catch (PDOException $e) {
-	    die("Error: " . $e->getMessage());
-    }
-
-    $query = "SELECT * FROM `users` WHERE `username`=:username";
-
-	$stmt = $dbh->prepare($query);
-
-    $stmt->bindParam('username', $username, PDO::PARAM_STR);
-
-    $stmt->execute();
-
-    $count = $stmt->rowCount();
-    $row   = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if($count == 1 && !empty($row)) {
-        // $message = "Username was found on the database. <br />";     
-        if (password_verify($password, $row["password"])) {
-            // $message2 = "Password is valid. <br />";
-
-            $_SESSION["id"] = filter_var($row["id"], FILTER_VALIDATE_INT);
-
-            header('location:index.php');
-        } else {
-            $_SESSION["error"] = "Unfortunately, it looks like you have the wrong password. ";
-
-            header("Location: error.php");
-        }
-    } else {
-        $_SESSION["error"] = "Unfortunately, it looks like we can't find the username from our database. ";
-
-        header("Location: error.php");
-        // echo "username or password invalid.";
-    }
-
 ?>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <section class="container" id="login">
+        <h2>Login</h2>
+
+        <form action="<?php echo htmlspecialchars("process_login.php"); ?>" method="post">
+            <div class="form-group">
+                <label for="username">Username: </label>
+                <input type="text" class="form-control" name="username" id="username">      
+            </div>
+
+            <div class="form-group">
+            <label for="password">Password: </label>
+                <input type="password" class="form-control" name="password" id="password">   
+            </div>
+
+            <input type="submit" class="btn btn-primary" name="submit" id="submit" value="Login">
+        </form> 
+    </section>
+
+    <section class="container" id="register">
+       <hr>
+
+        <?php 
+            if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
+                echo "You're logged in. ";    
+                echo "<a href=\"" . htmlspecialchars("logout.php") . "\">Logout</a>";
+            } else {
+                echo "<a href=\"" . htmlspecialchars("register.php") . "\">Register</a>";
+
+            }
+        ?>   
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+</body>
+</html>
