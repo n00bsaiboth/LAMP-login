@@ -1,11 +1,7 @@
 <?php
-    function validate($data) {
-        $data = trim($data);
-        $data = htmlentities($data);
-        $data = stripslashes($data);
+    session_start();
 
-        return $data;
-    }
+    include("__/php/functions.php");
 
     if(isset($_POST["username"]) && !empty($_POST["username"])) {
         $username = $_POST["username"];
@@ -26,7 +22,7 @@
     }
 
 
-    $query = "select * from `users` where `username`=:username";
+    $query = "SELECT * FROM `users` WHERE `username`=:username";
 
 	$stmt = $dbh->prepare($query);
 
@@ -38,11 +34,13 @@
     $row   = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if($count == 1 && !empty($row)) {
+        $_SESSION["error"] = "Unfortunately, it looks like the username has already been taken. ";
+        
         header("Location: error.php");
     } 
 
 
-    $sql = "insert users (username, password) values (:username, :password)";
+    $sql = "INSERT users (username, password) VALUES (:username, :password)";
 
     $stmt = $dbh->prepare($sql);
 

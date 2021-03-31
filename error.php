@@ -1,4 +1,11 @@
-<!doctype html>
+<?php
+    session_start();
+
+    if(isset($_SESSION["error"]) && !empty($_SESSION["error"])) {
+        $error = $_SESSION["error"];
+    }
+?>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -16,6 +23,13 @@
         <div class="jumbotron">
         <h1 class="display-4">Oops, something went wrong!</h1>
         <hr class="my-4">
+        <p>
+        <?php
+            if(isset($error) && !empty($error)) {
+                echo $error;
+            }          
+        ?>
+        </p>
         <p class="lead"><a href="index.php">Return to frontpage</a></p>
         </div>
     </section>

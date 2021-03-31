@@ -1,22 +1,16 @@
 <?php
     session_start();
 
-    function validate($data) {
-        $data = trim($data);
-        $data = htmlentities($data);
-        $data = stripslashes($data);
-
-        return $data;
-    }
+    include("__/php/functions.php");
 
     if(isset($_POST["username"]) && !empty($_POST["username"])) {
-        $username = $_POST["username"];
-        $username = validate($username);
+        $username = validate($_POST["username"]);
+        $username = filter_var($username, FILTER_SANITIZE_STRING);
     }
 
     if(isset($_POST["password"]) && !empty($_POST["password"])) {
-        $password = $_POST["password"];
-        $password = validate($password);
+        $password = validate($_POST["password"]);
+        $password = filter_var($password, FILTER_SANITIZE_STRING);
     }
 
     try {
@@ -25,7 +19,7 @@
 	    die("Error: " . $e->getMessage());
     }
 
-    $query = "select * from `users` where `username`=:username";
+    $query = "SELECT * FROM `users` WHERE `username`=:username";
 
 	$stmt = $dbh->prepare($query);
 
@@ -41,40 +35,19 @@
         if (password_verify($password, $row["password"])) {
             // $message2 = "Password is valid. <br />";
 
-            $_SESSION["id"] = $row["id"];
+            $_SESSION["id"] = filter_var($row["id"], FILTER_VALIDATE_INT);
+
             header('location:index.php');
         } else {
+            $_SESSION["error"] = "Unfortunately, it looks like you have the wrong password. ";
+
             header("Location: error.php");
         }
     } else {
+        $_SESSION["error"] = "Unfortunately, it looks like we can't find the username from our database. ";
+
         header("Location: error.php");
         // echo "username or password invalid.";
     }
 
 ?>
-
-
-<!doctype html>
-
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-
-    <title></title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    <?php
-
-    ?>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-
-</body>
-</html>
