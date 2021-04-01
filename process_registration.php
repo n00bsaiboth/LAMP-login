@@ -7,6 +7,10 @@
     if(isset($_POST["username"]) && !empty($_POST["username"])) {
         $username = validate($_POST["username"]);
         $username = filter_var($username, FILTER_SANITIZE_STRING);
+    } else {
+        $_SESSION["error"] = "Unfortunately, it looks like you did not fill the username in the form. ";
+        
+        header("Location: error.php");
     }
 
     if(isset($_POST["password"]) && !empty($_POST["password"])) {
@@ -17,6 +21,10 @@
         // $password_in_plaintext = $password;
         
         $password = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        $_SESSION["error"] = "Unfortunately, it looks like you did not fill the password in the form. ";
+        
+        header("Location: error.php");
     }
 
     // check if the username already exists, if it does, then send an error to the user that
