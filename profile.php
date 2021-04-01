@@ -7,21 +7,17 @@
     if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
         $id = validate($_SESSION["id"]);
         $id = filter_var($id, FILTER_VALIDATE_INT);
-        $id = settype($id, "integer");
+        
+        // this settype seems to mess something up, because
+        // the id number is not updating into profile file.
+        
+        // $id = settype($id, "integer");
     }
 
-    
-    $query = "SELECT * FROM `users` WHERE `id`=:id";
+    // calling the getProfileDetails function from the
+    // config file, where lies all the rest of the SQL 
 
-    $stmt = $dbh->prepare($query);
-
-    $stmt->bindParam('id', $id, PDO::PARAM_STR);
-
-    $stmt->execute();
-    
-    $count = $stmt->rowCount();
-    $row   = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    $row = getProfileDetails($dbh, $id);
 ?>
 
 <!DOCTYPE html>
@@ -45,10 +41,10 @@
         <h2>Profile</h2>
 
         <?php 
-		    if($count == 1 && !empty($row)) {
-			    echo "<p>ID: " . $row["id"] . "</p>";
+		    if(isset($row) && !empty($row)) {
+                echo "<p>ID: " . $row["id"] . "</p>";
                 echo "<p>Username: " . $row["username"] . "</p>";
-                echo "<p>password: " . $row["password"] . "</p>";
+                echo "<p>Password: " . $row["password"] . "</p>";
             } else {
                 $_SESSION["error"] = "Unfortunately, we couldn't find the following profile that matches with the ID-number. Actually we think that there was no ID-number.";
 
@@ -61,10 +57,6 @@
     <?php
         echo "<a href=\"" . htmlspecialchars("index.php") . "\">Back to frontpage</a>";
     ?>
-    </section>
-
-    <section class="container" id="">
-
     </section>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
