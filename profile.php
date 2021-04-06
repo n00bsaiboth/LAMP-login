@@ -12,6 +12,10 @@
         // the id number is not updating into profile file.
         
         // $id = settype($id, "integer");
+
+        // try another way to do it, see if it works
+
+        $id = (int) $id;
     }
 
     // calling the getProfileDetails function from the

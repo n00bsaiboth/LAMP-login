@@ -28,6 +28,6 @@
     </section>
 
 
-    <?php
-        include("__/php/footer.php");
-    ?>
+<?php
+    include("__/php/footer.php");
+?>
