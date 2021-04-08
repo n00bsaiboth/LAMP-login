@@ -9,7 +9,7 @@
 
     if(isset($stmt) && !empty($stmt)) {
         unset($stmt);
-    }
+    } 
 ?>
 </body>
 </html>

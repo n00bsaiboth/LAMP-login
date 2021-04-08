@@ -15,7 +15,7 @@
 
         // try another way to do it, see if it works
 
-        $id = (int) $id;
+        $id = (int) $id; 
     }
 
     // calling the getProfileDetails function from the
