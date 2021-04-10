@@ -59,9 +59,67 @@
     	} 
 	}
 
+
+
+	function checkIfUserWithAnIDExists($dbh = null, $id = null) {
+
+		$query = "SELECT * FROM `users` WHERE `id`=:id";
+
+		$stmt = $dbh->prepare($query);
+
+    	$stmt->bindParam('id', $id, PDO::PARAM_STR);
+
+    	$stmt->execute();
+
+    	$count = $stmt->rowCount();
+    	$row   = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    	if($count == 1 && !empty($row)) {
+        	$_SESSION["error"] = "We found the user with the corresponding ID-number. ";
+        
+        	header("Location: error.php");
+    	} 
+
+	}
+
+	/* Check if User with and ID and Password exists.
+	 *
+	 * 
+
+	function checkIfUserWithAnIDAndPasswordExists($dbh = null, $id = null) {
+
+		$query = "SELECT * FROM `users` WHERE `id`=:id";
+
+		$stmt = $dbh->prepare($query);
+
+    	$stmt->bindParam('id', $id, PDO::PARAM_STR);
+
+    	$stmt->execute();
+
+    	$count = $stmt->rowCount();
+    	$row   = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    	if($count == 1 && !empty($row)) {
+			if($_POST["currentpassword"] == $row["password"]) {
+				$_SESSION["error"] = "Unfortunately, you entered the wrong password. ";
+			} else {
+
+				header("Location: error.php");
+			}
+        	
+        
+        	
+    	} 
+
+	}
+
+	*/
+
 	// add new user
 
 	function addNewUser($dbh = null, $username = null, $password = null) {
+
+
 		$sql = "INSERT users (username, password) VALUES (:username, :password)";
 
 		$stmt = $dbh->prepare($sql);
@@ -73,6 +131,51 @@
 			header("location: index.php");
 		} 
 	}
+
+	// remove user
+
+	function removeUser($dbh = null, $id = null) {
+
+
+		$sql = "DELETE FROM `users` WHERE id = :id";
+
+		$stmt = $dbh->prepare($sql);
+	
+		$stmt->bindParam(":id", $id, PDO::PARAM_INT);	
+
+		if($stmt->execute()) {
+			$_SESSION['id'] = "";
+
+			header("location: index.php");			
+		} else {
+			$_SESSION["error"] = "Unfortunately, there was some error while removing your user account. We think that the error was, that there was no corresponding ID-number, with your user account. ";
+	
+			header("Location: error.php");
+		}
+	}
+
+	// update user password
+
+	function updateUserPassword($dbh = null, $password = null, $id = null) {
+		$sql = "UPDATE users SET password = :password WHERE id = :id";
+
+		$stmt = $dbh->prepare($sql);
+	
+		$stmt->bindParam(":password", $password, PDO::PARAM_STR);
+		$stmt->bindParam(":id", $id, PDO::PARAM_INT);	
+
+		if($stmt->execute()) {
+
+			header("location: index.php");			
+		} else {
+			$_SESSION["error"] = "Unfortunately, something went wrong. ";
+	
+			header("Location: error.php");
+		}
+
+	}
+
+	// login
 
 	function login($dbh = null, $username = null, $password = null) {
 

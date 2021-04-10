@@ -27,7 +27,7 @@
 ?>
 
 
-    <section class="container" id="Profile">
+    <section class="container" id="profile">
         <h2>Profile</h2>
 
         <?php 
@@ -42,6 +42,43 @@
             }
         ?>
     </section>
+
+    <hr />
+
+    <section class="container" id="updatepassword">
+        <h2>Update password </h2>    
+
+        <form action="<?php echo htmlspecialchars("process_updatepassword.php"); ?>" method="post">
+            <!--
+            <div class="form-group">
+                <label for="currentpassword">Current password: </label>
+                <input type="password" class="form-control" name="currentpassword" id="currentpassword">      
+            </div>
+            -->
+
+            <div class="form-group">
+            <label for="newpassword">New password: </label>
+                <input type="password" class="form-control" name="newpassword" id="newpassword">   
+            </div>
+
+            <input type="submit" class="btn btn-primary" name="submit" id="submit" value="Update password">
+        </form> 
+    </section>
+
+    <hr />
+
+    <section class="container" id="removeuser">
+        <h2>Remove user </h2>      
+
+
+        <form action="<?php echo htmlspecialchars("process_removeuser.php"); ?>" method="post">
+
+
+            <input type="submit" class="btn btn-primary" name="submit" id="submit" value="Remove user">
+        </form> 
+    </section>    
+
+    <hr />
 
     <section class="container" id="">
     <?php
