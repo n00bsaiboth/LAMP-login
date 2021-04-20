@@ -13,10 +13,10 @@
         <?php
             if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
                 echo "<p>You're already logged in. </p>";
-                echo "<a href=\"" . htmlspecialchars("index.php") . "\">Back to frontpage</a>";
+                echo "<a href=\"" . validateURL("index.php") . "\">Back to frontpage</a>";
             } else {
         ?>
-        <form action="<?php echo htmlspecialchars("process_login.php"); ?>" method="post">
+        <form action="<?php echo validateURL("process_login.php"); ?>" method="post">
             <div class="form-group">
                 <label for="username">Username: </label>
                 <input type="text" class="form-control" name="username" id="username">      
@@ -39,9 +39,9 @@
 
         <?php 
             if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
-                echo "<a href=\"" . htmlspecialchars("logout.php") . "\">Logout</a>";
+                echo "<a href=\"" . validateURL("logout.php") . "\">Logout</a>";
             } else {
-                echo "<a href=\"" . htmlspecialchars("register.php") . "\">Register</a>";
+                echo "<a href=\"" . validateURL("register.php") . "\">Register</a>";
 
             }
         ?>   

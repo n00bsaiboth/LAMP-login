@@ -5,8 +5,7 @@
     include("__/php/config.php");
 
     if(isset($_SESSION["error"]) && !empty($_SESSION["error"])) {
-        $error = validate($_SESSION["error"]);
-        $error = filter_var($error, FILTER_SANITIZE_STRING);
+        $error = validateString($_SESSION["error"]);
     }
 
     include("__/php/header.php");

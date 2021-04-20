@@ -5,8 +5,8 @@
     include("__/php/config.php");
 
     if(isset($_POST["username"]) && !empty($_POST["username"])) {
-        $username = validate($_POST["username"]);
-        $username = filter_var($username, FILTER_SANITIZE_STRING);
+        $username = validateString($_POST["username"]);
+       
     } else {
         $_SESSION["error"] = "Unfortunately, it looks like you did not fill the username in the form. ";
         
@@ -14,8 +14,8 @@
     }
 
     if(isset($_POST["password"]) && !empty($_POST["password"])) {
-        $password = validate($_POST["password"]);
-        $password = filter_var($password, FILTER_SANITIZE_STRING);
+        $password = validateString($_POST["password"]);
+        
     } else {
         $_SESSION["error"] = "Unfortunately, it looks like you did not fill the password in the form. ";
         

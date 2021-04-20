@@ -19,23 +19,23 @@
         <li class="nav-item">
         <?php 
             if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {  
-                echo "<a class=\"nav-link\" href=\"" . htmlspecialchars("logout.php") . "\">Logout</a>";
+                echo "<a class=\"nav-link\" href=\"" . validateURL("logout.php") . "\">Logout</a>";
             } else {
-                echo "<a class=\"nav-link\" href=\"" . htmlspecialchars("login.php") . "\">Login</a>";
+                echo "<a class=\"nav-link\" href=\"" . validateURL("login.php") . "\">Login</a>";
             }
         ?>  
         </li>
         <li class="nav-item">
         <?php 
             if(empty($_SESSION["id"])) {  
-                echo "<a class=\"nav-link\" href=\"" . htmlspecialchars("register.php") . "\">Register</a>";
+                echo "<a class=\"nav-link\" href=\"" . validateURL("register.php") . "\">Register</a>";
             } 
         ?>         
         </li>
         <li class="nav-item">
         <?php 
             if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {  
-                echo "<a class=\"nav-link\" href=\"" . htmlspecialchars("profile.php") . "\">Profile</a>";
+                echo "<a class=\"nav-link\" href=\"" . validateURL("profile.php") . "\">Profile</a>";
             } 
         ?>         
         </li>

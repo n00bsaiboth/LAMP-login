@@ -5,17 +5,7 @@
     include("__/php/config.php");
 
     if(isset($_SESSION["id"]) && !empty($_SESSION["id"])) {
-        $id = validate($_SESSION["id"]);
-        $id = filter_var($id, FILTER_VALIDATE_INT);
-        
-        // this settype seems to mess something up, because
-        // the id number is not updating into profile file.
-        
-        // $id = settype($id, "integer");
-
-        // try another way to do it, see if it works
-
-        $id = (int) $id; 
+        $id = validateINT($_SESSION["id"]);
     }
 
     // calling the getProfileDetails function from the
@@ -32,9 +22,9 @@
 
         <?php 
 		    if(isset($row) && !empty($row)) {
-                echo "<p>ID: " . $row["id"] . "</p>";
-                echo "<p>Username: " . $row["username"] . "</p>";
-                echo "<p>Password: " . $row["password"] . "</p>";
+                echo "<p>ID: " . validateOutput($row["id"]) . "</p>";
+                echo "<p>Username: " . validateOutput($row["username"]) . "</p>";
+                echo "<p>Password: " . validateOutput($row["password"]) . "</p>";
             } else {
                 $_SESSION["error"] = "Unfortunately, we couldn't find the following profile that matches with the ID-number. Actually we think that there was no ID-number.";
 
@@ -48,7 +38,7 @@
     <section class="container" id="updatepassword">
         <h2>Update password </h2>    
 
-        <form action="<?php echo htmlspecialchars("process_updatepassword.php"); ?>" method="post">
+        <form action="<?php echo validateURL("process_updatepassword.php"); ?>" method="post">
             <!--
             <div class="form-group">
                 <label for="currentpassword">Current password: </label>
@@ -71,7 +61,7 @@
         <h2>Remove user </h2>      
 
 
-        <form action="<?php echo htmlspecialchars("process_removeuser.php"); ?>" method="post">
+        <form action="<?php echo validateURL("process_removeuser.php"); ?>" method="post">
 
 
             <input type="submit" class="btn btn-primary" name="submit" id="submit" value="Remove user">
@@ -82,7 +72,7 @@
 
     <section class="container" id="">
     <?php
-        echo "<a href=\"" . htmlspecialchars("index.php") . "\">Back to frontpage</a>";
+        echo "<a href=\"" . validateURL("index.php") . "\">Back to frontpage</a>";
     ?>
     </section>
 

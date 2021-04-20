@@ -119,10 +119,9 @@
 
 	function addNewUser($dbh = null, $username = null, $password = null) {
 
+		$query = "INSERT users (username, password) VALUES (:username, :password)";
 
-		$sql = "INSERT users (username, password) VALUES (:username, :password)";
-
-		$stmt = $dbh->prepare($sql);
+		$stmt = $dbh->prepare($query);
 	
 		$stmt->bindParam(":username", $username, PDO::PARAM_STR);
 		$stmt->bindParam(":password", $password, PDO::PARAM_STR);
@@ -136,10 +135,9 @@
 
 	function removeUser($dbh = null, $id = null) {
 
+		$query = "DELETE FROM `users` WHERE id = :id";
 
-		$sql = "DELETE FROM `users` WHERE id = :id";
-
-		$stmt = $dbh->prepare($sql);
+		$stmt = $dbh->prepare($query);
 	
 		$stmt->bindParam(":id", $id, PDO::PARAM_INT);	
 
@@ -157,9 +155,9 @@
 	// update user password
 
 	function updateUserPassword($dbh = null, $password = null, $id = null) {
-		$sql = "UPDATE users SET password = :password WHERE id = :id";
+		$query = "UPDATE users SET password = :password WHERE id = :id";
 
-		$stmt = $dbh->prepare($sql);
+		$stmt = $dbh->prepare($query);
 	
 		$stmt->bindParam(":password", $password, PDO::PARAM_STR);
 		$stmt->bindParam(":id", $id, PDO::PARAM_INT);	
@@ -194,12 +192,15 @@
 	
 		if($count == 1 && !empty($row)) {
 			// $message = "Username was found on the database. <br />";     
-			if (password_verify($password, $row["password"])) {
+
+			$validatedPassword = validateUserWhenLoggingIn($password, $row["password"]);
+
+			if ($validatedPassword) {
 				// $message2 = "Password is valid. <br />";
 	
 				// Quite not sure if this works, but try to make the $session_id variable to be integer.    
 	
-				$_SESSION["id"] = filter_var($row["id"], FILTER_VALIDATE_INT);
+				$_SESSION["id"] = validateINT($row["id"]);
 	
 				header('location:index.php');
 			} else {
