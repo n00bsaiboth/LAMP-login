@@ -37,6 +37,32 @@
 		}
 	}
 
+	// get all users (for testing purposes)
+
+	function getAllUsers($dbh = null) {
+		$query = "SELECT * FROM `users`";
+
+		$stmt = $dbh->prepare($query);
+
+		$stmt->execute();
+
+		echo "<div class=\"row\">";
+		echo "<div class=\"col\"><b>Username</b></div>";
+		echo "<div class=\"col\"><b>Password</b></div>";
+		echo "</div>";
+		
+
+
+		while($row = $stmt->fetch()) {
+			echo "<div class=\"row\">";
+			echo "<div class=\"col\"><p>" . validateOutput($row['username']) . "</p></div>";
+			echo "<div class=\"col\"><p>" . validateOutput($row['password']) . "</p></div>";
+			echo "</div>";
+		}
+
+		
+	}
+
 	// check if username exists
 
 	function checkIfUserExists($dbh = null, $username = null) {
