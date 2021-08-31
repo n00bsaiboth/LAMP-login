@@ -34,13 +34,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'n00bsaiboth', '$2y$10$aBKlTz2sbk/Y8cbZzrK60OiB6xxvqNV3u4eXl3upJOguuI3A4/0Ra');
-
---
 -- Indexes for dumped tables
 --
 
